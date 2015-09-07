@@ -1,14 +1,17 @@
 package com.graph.io;
 
+import java.io.File;
+
 import com.graph.model.IncidenceMatrix;
 
 
 public class GraphReader {
 
 	private IncidenceMatrix matrix;
+	private File inputFile;
 
 	public GraphReader(String inputFileName) {
-		// TODO Auto-generated constructor stub
+		inputFile=new File(inputFileName);
 	}
 
 	public IncidenceMatrix getMatrix() {
