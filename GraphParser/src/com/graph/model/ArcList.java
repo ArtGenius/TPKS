@@ -1,5 +1,27 @@
 package com.graph.model;
-// TODO структура списка дуг 
-public class ArcList {
 
+public class ArcList extends BinaryVector{
+
+	private int arcsCount;
+	private int top;
+	private int bottom;
+	
+	public ArcList(int arcsCount){
+		super(arcsCount*2);
+		this.arcsCount=arcsCount;
+	}
+	
+	public boolean add(byte begin, byte end) {
+		setByte(top++,begin);
+		setByte(top++, end);
+		return true;
+	}
+	
+	public byte get(){
+		return getByte(bottom++);
+	}
+	
+	public int getArcsCount(){
+		return arcsCount;
+	}
 }
