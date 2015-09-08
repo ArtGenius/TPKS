@@ -10,7 +10,7 @@ public class IncidenceMatrix extends BinaryVector {
 	private int cols;
 
 	public IncidenceMatrix(int columns, int rows) {
-		super((int)Math.ceil(Math.log(columns)/Math.log(2))*rows);
+		super((columns%4==0)? (columns/4):(columns/4)+1);
 		this.cols = columns;
 		this.rows = rows;
 	}
