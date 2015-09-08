@@ -4,6 +4,7 @@ public abstract class BinaryVector {
 
 	private byte[] vector;
 	private int size;
+	protected int top;
 	
 	public BinaryVector() {
 		size = 240;
@@ -26,5 +27,10 @@ public abstract class BinaryVector {
 	
 	public int getSize(){
 		return size;
+	}
+	
+	public void print(){
+		System.out.println("Binary vector");
+		for(byte b:vector)System.out.println(Integer.toBinaryString(b));
 	}
 }

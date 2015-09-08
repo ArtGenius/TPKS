@@ -13,8 +13,10 @@ public class Main {
 	public static void main(String[] args) {
 		GraphReader reader = new GraphReader(INPUT_FILE_NAME);
 		IncidenceMatrix matrix = reader.read().getMatrix();
+		matrix.print();
 		Parser parser = new Parser(matrix);
 		ArcList list = parser.parse();
+		list.print();
 		GraphWriter writer = new GraphWriter(OUTPUT_FILE_NAME);
 		writer.write(list);
 	}

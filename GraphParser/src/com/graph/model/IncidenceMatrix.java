@@ -10,14 +10,14 @@ public class IncidenceMatrix extends BinaryVector {
 	private int cols;
 
 	public IncidenceMatrix(int columns, int rows) {
-		super((columns%4==0)? (columns/4):(columns/4)+1);
+		super(((columns%4==0)? (columns/4):(columns/4)+1)*rows);
 		this.cols = columns;
 		this.rows = rows;
 	}
 
 	public byte getElement(int column, int row) {
 		byte b = getByte(getByteNumber(column, row));
-		b=(byte) (b<<getElementPosition(column, row)>>6);
+		b=(byte) ((byte) ((byte)(b<<getElementPosition(column, row))>>>6)&3);
 		return b;
 	}
 	/**
@@ -27,9 +27,9 @@ public class IncidenceMatrix extends BinaryVector {
 	 * @param matrixRow- массив байтов (строка матрицы инцидентности)
 	 * 
 	 * */
-	public void setRow(int column, int row, byte... matrixRow) {
+	public void setRow(byte... matrixRow) {
 		for (byte b : matrixRow)
-			setByte(getByteNumber(column, row), b);
+			setByte(top++,b);
 	}
 
 	public int getColumnsCount() {
@@ -41,11 +41,17 @@ public class IncidenceMatrix extends BinaryVector {
 	}
 
 	public int getByteNumber(int col, int row) {
-		return (cols * col + row) / 4;
+		//int x=(cols * row + col) / 4;
+		int x=(cols%4==0)?cols:(cols/4+1)*4;
+		x=(x * row + col)*2 / 8;
+		return x;
 	}
 
 	public int getElementPosition(int col, int row) {
-		return (cols * col + row) * 2 - getByteNumber(col, row) * 8;
+		//int x=(cols%4==0)?cols:(cols/4)*4;
+		int x=(cols%4==0)?cols:(cols/4+1)*4;
+		x=(x * row + col)*2- getByteNumber(col, row) * 8;
+		return x;
 	}
 
 	public static int maxSize(int n) {

@@ -3,7 +3,6 @@ package com.graph.model;
 public class ArcList extends BinaryVector{
 
 	private int arcsCount;
-	private int top;
 	private int bottom;
 	
 	public ArcList(int arcsCount){

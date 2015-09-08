@@ -58,7 +58,7 @@ public class GraphReader {
 					trow = (byte) (trow << (6 - (i % 4) * 2));
 					row[j]=(byte)(row[j]|trow);
 				}
-				matrix.setRow(0, 0, row);
+				matrix.setRow(row);
 				
 			}
 
