@@ -9,6 +9,12 @@ import java.io.IOException;
 import com.graph.model.IncidenceMatrix;
 
 public class GraphReader {
+	
+	private final static String ERROR_MESSAGE_5="Ошибка считывания входных данных. Проверьте корректность данных!";
+	private final static String ERROR_MESSAGE_4= "Файл с входными данными не найден.";
+	private final static String ERROR_MESSAGE_3 = "Ребро не имеет начала или конца.";
+	private final static String ERROR_MESSAGE_2 = "Дуга не может соединять более двух вершин.";
+	private final static String ERROR_MESSAGE_1 = "Входные данные не соответствуют заданным ограничениям(количество вершин не больше 16).";
 
 	private IncidenceMatrix matrix;
 	private File inputFile;
@@ -21,16 +27,14 @@ public class GraphReader {
 		return matrix;
 	}
 
-	public GraphReader read() {
-		// TODO разработать функцию считывания графа из файла и представление
-		// его в виде матрицы инцидентности. при считывании проверять
-		// корректность входных данных, при необходимости сообщать об ошибках
+	public boolean read() {
 		try (BufferedReader in = new BufferedReader(new FileReader(inputFile))) {
 			int rows;
 			int cols;
 			cols = Integer.parseInt(in.readLine());
-			if(cols>16){
-				System.out.println("Входные данные не соответствуют заданным ограничениям(количество вершин не больше 16).");
+			if (cols > 16) {
+				System.out.println(ERROR_MESSAGE_1);
+				return false;
 			}
 			rows = Integer.parseInt(in.readLine());
 			matrix = new IncidenceMatrix(cols, rows);
@@ -38,13 +42,14 @@ public class GraphReader {
 			String tmp[];
 			while ((temp = in.readLine()) != null) {
 				tmp = temp.split(" ");
-				byte row[] = new byte[(cols%4==0)? (cols/4):(cols/4)+1];
+				byte row[] = new byte[(cols % 4 == 0) ? (cols / 4)
+						: (cols / 4) + 1];
 				int j = 0;
 				byte trow = 0;
-				int one=0;
-				int mone=0;
+				int one = 0;
+				int mone = 0;
 				for (int i = 0; i < cols; i++) {
-				if (i % 4 == 0 && i!=0) {
+					if (i % 4 == 0 && i != 0) {
 						++j;
 					}
 					switch (tmp[i]) {
@@ -62,27 +67,26 @@ public class GraphReader {
 					default:
 						break;
 					}
-					if(one>1||mone>1){
-						System.out.println("Ребро не может соединять более двух вершин.");
+					if (one > 1 || mone > 1) {
+						System.out.println(ERROR_MESSAGE_2);
+						return false;
 					}
 					trow = (byte) (trow << (6 - (i % 4) * 2));
-					row[j]=(byte)(row[j]|trow);
+					row[j] = (byte) (row[j] | trow);
 				}
-				if(one==0||mone==0){
-					System.out.println("Ребро не имеет начала или конца.");
+				if (one == 0 || mone == 0) {
+					System.out.println(ERROR_MESSAGE_3);
+					return false;
 				}
 				matrix.setRow(row);
-				
 			}
 
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(ERROR_MESSAGE_4);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(ERROR_MESSAGE_5);
 		}
-		return this;
+		return true;
 	}
 
 }
