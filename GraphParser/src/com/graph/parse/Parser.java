@@ -5,6 +5,7 @@ import com.graph.model.IncidenceMatrix;
 
 public class Parser {
 
+	private final static String ERROR_MESSAGE_1 = "Превышен максимальный объем графа";
 	private ArcList list;
 	private IncidenceMatrix matrix;
 
@@ -15,7 +16,10 @@ public class Parser {
 	ArcList parse() {
 		int cols = matrix.getColumnsCount();
 		int rows = matrix.getRowsCount();
-		list = new ArcList(rows);
+		list = new ArcList();
+		if (!list.setDemansion(rows)) {
+			System.out.print(ERROR_MESSAGE_1);
+		}
 		for (int i = 0; i < rows; i++) {
 			byte begin = 0, end = 0;
 			for (int j = 0; j < cols; j++) {

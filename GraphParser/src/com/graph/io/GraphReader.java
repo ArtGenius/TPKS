@@ -9,12 +9,11 @@ import java.io.IOException;
 import com.graph.model.IncidenceMatrix;
 
 public class GraphReader {
-	
-	private final static String ERROR_MESSAGE_5="Ошибка считывания входных данных. Проверьте корректность данных!";
-	private final static String ERROR_MESSAGE_4= "Файл с входными данными не найден.";
+	private final static String ERROR_MESSAGE_5 = "Ошибка считывания входных данных. Проверьте корректность данных!";
+	private final static String ERROR_MESSAGE_4 = "Файл с входными данными не найден.";
 	private final static String ERROR_MESSAGE_3 = "Ребро не имеет начала или конца.";
 	private final static String ERROR_MESSAGE_2 = "Дуга не может соединять более двух вершин.";
-	private final static String ERROR_MESSAGE_1 = "Входные данные не соответствуют заданным ограничениям(количество вершин не больше 16).";
+	private final static String ERROR_MESSAGE_1 = "Превышен максимальный объем графа";
 
 	private IncidenceMatrix matrix;
 	private File inputFile;
@@ -32,12 +31,12 @@ public class GraphReader {
 			int rows;
 			int cols;
 			cols = Integer.parseInt(in.readLine());
-			if (cols > 16) {
+			rows = Integer.parseInt(in.readLine());
+			matrix = new IncidenceMatrix(16);
+			if (!matrix.setDemansion(cols, rows)) {
 				System.out.println(ERROR_MESSAGE_1);
 				return false;
 			}
-			rows = Integer.parseInt(in.readLine());
-			matrix = new IncidenceMatrix(cols, rows);
 			String temp;
 			String tmp[];
 			while ((temp = in.readLine()) != null) {
@@ -88,5 +87,4 @@ public class GraphReader {
 		}
 		return true;
 	}
-
 }

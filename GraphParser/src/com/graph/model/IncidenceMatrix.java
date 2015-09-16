@@ -4,11 +4,28 @@ public class IncidenceMatrix extends BinaryVector {
 
 	private int rows;
 	private int cols;
+	private int maxRowsCount = 100;
+	private int maxColsCount;
 
 	public IncidenceMatrix(int columns, int rows) {
 		super(((columns % 4 == 0) ? (columns / 4) : (columns / 4) + 1) * rows);
+		this.maxColsCount = columns;
+		this.maxRowsCount = rows;
+	}
+
+	public IncidenceMatrix(int columns) {
+		super(((columns % 4 == 0) ? (columns / 4) : (columns / 4) + 1) * 100);
+		this.maxColsCount = columns;
+	}
+
+	public boolean setDemansion(int columns, int rows) {
+		if (columns > maxColsCount || rows > maxRowsCount)
+			return false;
+		super.setSize(((columns % 4 == 0) ? (columns / 4) : (columns / 4) + 1)
+				* rows);
 		this.cols = columns;
 		this.rows = rows;
+		return true;
 	}
 
 	public byte getElement(int column, int row) {

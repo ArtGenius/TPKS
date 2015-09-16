@@ -2,18 +2,14 @@ package com.graph.model;
 
 public abstract class BinaryVector {
 
+	private int maxSize;
+	
 	private byte[] vector;
 	private int size;
 	protected int top;
 
-	public BinaryVector() {
-		size = 240;
-		vector = new byte[size];
-	}
-
 	public BinaryVector(int size) {
-		this.size = size;
-		vector = new byte[size];
+		this.maxSize = size;
 	}
 
 	public int getSize() {
@@ -48,5 +44,12 @@ public abstract class BinaryVector {
 			}
 		}
 		return bstr;
+	}
+
+	public boolean setSize(int size) {
+		this.size=size;
+		if(size>maxSize)return false;
+		vector = new byte[size];
+		return true;
 	}
 }
